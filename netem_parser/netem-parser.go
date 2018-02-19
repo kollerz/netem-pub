@@ -16,7 +16,6 @@ type NetemData struct {
 }
 
 func Parse(text string) (*NetemData, error) {
-	netemData := &NetemData{}
 	scanner := bufio.NewScanner(strings.NewReader(text))
 
 	for lineNo := 0; scanner.Scan(); lineNo++ {
@@ -34,11 +33,14 @@ func Parse(text string) (*NetemData, error) {
 			if !match {
 				return nil, errors.New("malformed netem stats")
 			}
+
 			var dummy int
+			netemData := &NetemData{}
 			fmt.Sscanf(line, " Sent %d bytes %d pkt (dropped %d, overlimits %d requeues %d)",
 				&netemData.Bytes, &netemData.Total, &netemData.Dropped, &dummy, &netemData.Reordered)
 			return netemData, nil
 		}
 	}
+
 	return nil, errors.New("bad netem stats")
 }
