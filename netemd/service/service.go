@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/thomas-fossati/netem-pub/cmd/config"
 	"github.com/thomas-fossati/netem-pub/netem"
+	"github.com/thomas-fossati/netem-pub/netemd/config"
 )
 
 type ifaceExpVars struct {
