@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/thomas-fossati/netem-pub/cmd/config"
+	"github.com/thomas-fossati/netem-pub/cmd/service"
 )
 
 var Verbose bool
@@ -20,7 +21,7 @@ var NetemPubCmd = &cobra.Command{
 	Long: `TODO details...
 			Complete documentation is available at http://...`,
 	Run: func(cmd *cobra.Command, args []string) {
-		NetemPubSvc(cfg)
+		service.NetemPub(cfg)
 	},
 }
 

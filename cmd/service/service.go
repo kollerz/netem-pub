@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"expvar"
@@ -43,7 +43,7 @@ func initExpVars(cfg *config.Config) {
 	}
 }
 
-func netemPoll(cfg *config.Config) {
+func netemPoller(cfg *config.Config) {
 	for {
 		for _, iface := range cfg.Interfaces {
 			out, err := netem.Fetch(iface.Name)
@@ -60,12 +60,11 @@ func netemPoll(cfg *config.Config) {
 
 		}
 		time.Sleep(cfg.PollIntervalMs * time.Millisecond)
-
 	}
 }
 
-func NetemPubSvc(cfg *config.Config) {
+func NetemPub(cfg *config.Config) {
 	initExpVars(cfg)
-	go netemPoll(cfg)
+	go netemPoller(cfg)
 	http.ListenAndServe(fmt.Sprintf(":%d", cfg.HTTPPort), nil)
 }
