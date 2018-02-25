@@ -26,12 +26,12 @@ func NewConfig() *Config {
 }
 
 func (c *Config) Remap() error {
-	for _, iface := range c.Interfaces {
+	for i, iface := range c.Interfaces {
 		tmp, err := getInterfaceNameFromIP(iface.IPAddr)
 		if err != nil {
 			return err
 		}
-		iface.Name = tmp
+		c.Interfaces[i].Name = tmp
 	}
 	return nil
 }
