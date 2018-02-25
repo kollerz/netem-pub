@@ -33,10 +33,10 @@ func initExpVars(cfg *config.Config) {
 
 	for _, iface := range cfg.Interfaces {
 		v := ifaceExpVars{
-			PktCount:     expvar.NewInt(fmt.Sprintf("%s.packet.count", iface.Domain)),
-			PktDropped:   expvar.NewInt(fmt.Sprintf("%s.packet.dropped", iface.Domain)),
-			PktReordered: expvar.NewInt(fmt.Sprintf("%s.packet.reordered", iface.Domain)),
-			BytesCount:   expvar.NewInt(fmt.Sprintf("%s.bytes.count", iface.Domain)),
+			PktCount:     expvar.NewInt(fmt.Sprintf("%s.packet.count", iface.Tag)),
+			PktDropped:   expvar.NewInt(fmt.Sprintf("%s.packet.dropped", iface.Tag)),
+			PktReordered: expvar.NewInt(fmt.Sprintf("%s.packet.reordered", iface.Tag)),
+			BytesCount:   expvar.NewInt(fmt.Sprintf("%s.bytes.count", iface.Tag)),
 		}
 
 		netemExpVars[iface.Name] = v

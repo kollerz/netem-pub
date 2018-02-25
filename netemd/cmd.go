@@ -43,14 +43,22 @@ func initConfig() {
 		viper.SetConfigName("config")
 	}
 
-	if err := viper.ReadInConfig(); err != nil {
+	err := viper.ReadInConfig()
+	if err != nil {
 		fmt.Println("Can't read config:", err)
 		os.Exit(1)
 	}
 
-	err := viper.Unmarshal(&cfg)
+	err = viper.Unmarshal(&cfg)
 	if err != nil {
 		fmt.Println("Can't unmarshal config:", err)
+		os.Exit(1)
+	}
+
+	// Resolve IPAddr's to _name's
+	err = cfg.Remap()
+	if err != nil {
+		fmt.Println("Can't remap config:", err)
 		os.Exit(1)
 	}
 }
