@@ -13,9 +13,10 @@ type Config struct {
 }
 
 type Interface struct {
-	Tag    string `mapstructure:"tag"`
-	IPAddr string `mapstructure:"ipaddr"`
-	Name   string // gets resolved from IPAddr on the fly
+	Tag      string `mapstructure:"tag"`
+	IPAddr   string `mapstructure:"ipaddr"`
+	Name     string // gets resolved from IPAddr on the fly
+	PingHost string `mapstructure:"ping_host"`
 }
 
 func NewConfig() *Config {

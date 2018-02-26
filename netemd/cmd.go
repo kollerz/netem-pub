@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -22,6 +23,7 @@ var NetemPubCmd = &cobra.Command{
 			Complete documentation is available at http://...`,
 	Run: func(cmd *cobra.Command, args []string) {
 		service.NetemPub(cfg)
+		http.ListenAndServe(fmt.Sprintf(":%d", cfg.HTTPPort), nil)
 	},
 }
 
