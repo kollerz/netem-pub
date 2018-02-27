@@ -30,6 +30,16 @@ round-trip min/avg/max = 118.8/118.8/118.8 ms`},
 			false,
 		},
 		{
+			"Lost packet",
+			args{`HPING router (eth0 172.28.0.3): icmp mode set, 28 headers + 0 data bytes
+
+--- router hping statistic ---
+1 packets tramitted, 0 packets received, 100% packet loss
+round-trip min/avg/max = 0.0/0.0/0.0 ms`},
+			nil,
+			true,
+		},
+		{
 			"Empty",
 			args{``},
 			nil,
