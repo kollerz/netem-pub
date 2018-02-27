@@ -24,11 +24,16 @@ func Parse(text string) (*HpingData, error) {
 
 		switch lineNo {
 		case 0:
-			match, _ = regexp.MatchString("len=.*$", line)
+			match, _ = regexp.MatchString("HPING.*$", line)
 			if !match {
-				return nil, errors.New("not a good hping sample")
+				return nil, errors.New("Should start with HPING")
 			}
 		case 1:
+			match, _ = regexp.MatchString("len=.*$", line)
+			if !match {
+				return nil, errors.New("Should start with len=")
+			}
+		case 2:
 			match, _ = regexp.MatchString("^ICMP timestamp:.*$", line)
 			if !match {
 				return nil, errors.New("malformed hping sample (1)")
@@ -37,7 +42,7 @@ func Parse(text string) (*HpingData, error) {
 			fmt.Sscanf(line, "ICMP timestamp: Originate=%d Receive=%d Transmit=%d",
 				&originateTs, &receiveTs, &transmitTs)
 
-		case 2:
+		case 3:
 			match, _ = regexp.MatchString("ICMP timestamp RTT.*$", line)
 			if !match {
 				return nil, errors.New("malformed hping sample (2)")
