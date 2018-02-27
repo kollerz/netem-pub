@@ -3,6 +3,7 @@ package service
 import (
 	"expvar"
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/thomas-fossati/netem-pub/hping"
@@ -19,10 +20,18 @@ type ifaceExpVars struct {
 	ReverseDelay *expvar.Int
 }
 
-var netemExpVars map[string]ifaceExpVars
+type expVars struct {
+	Map map[string]ifaceExpVars
+	Mtx sync.Mutex
+}
+
+var ev expVars
 
 func updateNetemExpVars(iface config.Interface, d *netem.NetemData) {
-	v := netemExpVars[iface.Name]
+	ev.Mtx.Lock()
+	defer ev.Mtx.Unlock()
+
+	v := ev.Map[iface.Name]
 
 	v.PktCount.Set(d.Total)
 	v.PktDropped.Set(d.Dropped)
@@ -31,14 +40,17 @@ func updateNetemExpVars(iface config.Interface, d *netem.NetemData) {
 }
 
 func updateHpingExpVars(iface config.Interface, d *hping.HpingData) {
-	v := netemExpVars[iface.Name]
+	ev.Mtx.Lock()
+	defer ev.Mtx.Unlock()
+
+	v := ev.Map[iface.Name]
 
 	v.ForwardDelay.Set(d.ForwardDelay)
 	v.ReverseDelay.Set(d.ReverseDelay)
 }
 
 func initExpVars(cfg *config.Config) {
-	netemExpVars = make(map[string]ifaceExpVars)
+	ev.Map = make(map[string]ifaceExpVars)
 
 	for _, iface := range cfg.Interfaces {
 		v := ifaceExpVars{
@@ -50,7 +62,7 @@ func initExpVars(cfg *config.Config) {
 			ReverseDelay: expvar.NewInt(fmt.Sprintf("%s.delay.reverse", iface.Tag)),
 		}
 
-		netemExpVars[iface.Name] = v
+		ev.Map[iface.Name] = v
 	}
 }
 
