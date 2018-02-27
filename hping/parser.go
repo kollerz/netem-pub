@@ -51,6 +51,12 @@ func Parse(text string) (*HpingData, error) {
 			// extract tsrtt
 			fmt.Sscanf(line, "ICMP timestamp RTT tsrtt=%d", &tsrtt)
 
+			// reject spurious samples, e.g.:
+			// Originate=73989970 Receive=73989970 Transmit=73989970
+			if originateTs == receiveTs && receiveTs == transmitTs {
+				return nil, errors.New("rejecting spurious sample")
+			}
+
 			// do the maths to populate HpingData
 			return &HpingData{
 				ForwardDelay: receiveTs - originateTs,
