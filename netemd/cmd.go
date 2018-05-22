@@ -15,6 +15,7 @@ import (
 var Verbose bool
 var cfg *config.Config
 var cfgFile string
+var noPing bool
 
 var NetemPubCmd = &cobra.Command{
 	Use:   "TODO",
@@ -22,7 +23,7 @@ var NetemPubCmd = &cobra.Command{
 	Long: `TODO details...
 			Complete documentation is available at http://...`,
 	Run: func(cmd *cobra.Command, args []string) {
-		service.NetemPub(cfg)
+		service.NetemPub(cfg, noPing)
 		http.ListenAndServe(fmt.Sprintf(":%d", cfg.HTTPPort), nil)
 	},
 }
@@ -30,6 +31,7 @@ var NetemPubCmd = &cobra.Command{
 func init() {
 	cobra.OnInitialize(initConfig)
 	NetemPubCmd.Flags().StringVar(&cfgFile, "config", "", "config file (default is TODO)")
+	NetemPubCmd.Flags().BoolVarP(&noPing, "noping", "", false, "disable delay measurements")
 	NetemPubCmd.Flags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 }
 

@@ -106,8 +106,10 @@ func hpingPoller(cfg *config.Config) {
 	}
 }
 
-func NetemPub(cfg *config.Config) {
+func NetemPub(cfg *config.Config, noPing bool) {
 	initExpVars(cfg)
 	go netemPoller(cfg)
-	go hpingPoller(cfg)
+	if !noPing {
+		go hpingPoller(cfg)
+	}
 }
