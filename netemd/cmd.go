@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/thomas-fossati/netem-pub/netemd/config"
-	"github.com/thomas-fossati/netem-pub/netemd/service"
+	"github.com/kollerz/netem-pub/netemd/config"
+	"github.com/kollerz/netem-pub/netemd/service"
 )
 
 var Verbose bool
