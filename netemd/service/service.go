@@ -6,9 +6,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/thomas-fossati/netem-pub/hping"
-	"github.com/thomas-fossati/netem-pub/netem"
-	"github.com/thomas-fossati/netem-pub/netemd/config"
+	"github.com/kollerz/netem-pub/hping"
+	"github.com/kollerz/netem-pub/netem"
+	"github.com/kollerz/netem-pub/netemd/config"
 )
 
 type ifaceExpVars struct {
@@ -35,7 +35,7 @@ func updateNetemExpVars(iface config.Interface, d *netem.NetemData) {
 
 	v.PktCount.Set(d.Total)
 	v.PktDropped.Set(d.Dropped)
-	v.PktReordered.Set(d.Reordered)
+	v.PktReordered.Set(d.Total - d.Reordered)
 	v.BytesCount.Set(d.Bytes)
 }
 
