@@ -35,7 +35,7 @@ func updateNetemExpVars(iface config.Interface, d *netem.NetemData) {
 
 	v.PktCount.Set(d.Total)
 	v.PktDropped.Set(d.Dropped)
-	v.PktReordered.Set(d.Reordered)
+	v.PktReordered.Set(d.Total - d.Reordered)
 	v.BytesCount.Set(d.Bytes)
 }
 
